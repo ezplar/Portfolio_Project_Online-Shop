@@ -1,0 +1,41 @@
+{% include "header.html" %}
+
+
+<body>
+<!--    {{ current_user.name }}-->
+<!--    {{ current_user }}-->
+
+    <div class="container">
+    {% for i in ds_items  %}
+        <img src="{{ i.img_url }}">
+    </div>
+    <div class="container">
+        <div class="col">
+        <div class="card mb-4 rounded-3 shadow-sm">
+          <div class="card-header py-3">
+            <h4 class="my-0 fw-normal">{{ i.item_name }}</h4>
+          </div>
+          <div class="card-body">
+            <h1 class="card-title pricing-card-title">₱{{ i.price }}.00</h1>
+            <ul class="list-unstyled mt-3 mb-4">
+              <li>{{ i.description }}</li>
+            </ul>
+          {% if not current_user.is_authenticated: %}
+              <form action="{{ url_for('login') }}", method="post">
+                <input type="submit" class="w-100 btn btn-lg btn-outline-primary" value="Checkout">
+            </form>
+          {% else  %}
+            <form action="{{ url_for('create_checkout_session', id=i.id) }}", method="post">
+                <input type="submit" class="w-100 btn btn-lg btn-outline-primary" value="Checkout">
+            </form>
+          {% endif %}
+          </div>
+        </div>
+      </div>
+    </div>
+
+    {% endfor %}
+
+
+</body>
+</html>
